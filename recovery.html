@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="x-icon" href="google.png" id="logo">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sign in - Google Accounts</title>
+</head>
+
+<body>
+    <main class="main_container">
+        <div class="page">
+        <div class="card">
+            <div class="card-left">
+                <!-- Google "G" logo (educational clone) -->
+                <a href="https://www.google.com" class="brand-link" aria-label="Google">
+                    <svg class="brand-logo" viewBox="0 0 48 48" aria-label="Google">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                </a>
+
+                <h1 class="title" data-i18n="cantSignIn">Couldn't sign you in</h1>
+                <a href="#" class="account-chip" id="account-chip" hidden title="Trocar conta">
+                    <svg class="account-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#5f6368" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                    <span class="account-email" id="account-email"></span>
+                    <svg class="account-caret" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#5f6368" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="card-right">
+                <p class="recovery-text">
+                    <span data-i18n="recoveryText1">To recover your account, contact another administrator on your domain.</span>
+                    <a href="https://support.google.com/accounts/answer/7682439?hl=pt-BR" class="link inline-link" data-i18n="recoveryLearnMore" target="_blank" rel="noopener">Learn more about account recovery</a>
+                </p>
+                <p class="recovery-text" data-i18n="recoveryText2">Or request a review from the Google Workspace support team. Reviews can take up to 72 hours.</p>
+
+                <div class="actions">
+                    <button type="button" class="btn-filled" id="contactSupport" data-i18n="contactSupport">Contact support</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="page-footer">
+        <select name="language_bar" id="language" aria-label="Change language">
+            <option value="en" selected>English (United States)</option>
+            <option value="pt-BR">Português (Brasil)</option>
+            <option value="es">Español (España)</option>
+            <option value="fr">Français (France)</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="ja">日本語</option>
+            <option value="zh">简体中文</option>
+        </select>
+
+        <div class="footer-links">
+            <a href="https://support.google.com/accounts?hl=pt-BR&p=account_iph" data-i18n="help" target="_blank" rel="noopener">Help</a>
+            <a href="https://accounts.google.com/TOS?loc=BR&hl=pt-BR&privacy=true" data-i18n="privacy" target="_blank" rel="noopener">Privacy</a>
+            <a href="https://accounts.google.com/TOS?loc=BR&hl=pt-BR" data-i18n="terms" target="_blank" rel="noopener">Terms</a>
+        </div>
+        </footer>
+        </div>
+    </main>
+
+    <script src="translations.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const email = new URLSearchParams(window.location.search).get("email");
+
+            if (email) {
+                // Account chip — clicking returns to sign-in with the email pre-filled
+                document.getElementById("account-email").textContent = email;
+                const chip = document.getElementById("account-chip");
+                chip.href = "signup.html?email=" + encodeURIComponent(email);
+                chip.hidden = false;
+            }
+
+            // "Contact support" builds the Workspace admin recovery request URL
+            const domain = email ? (email.split("@")[1] || "") : "";
+            document.getElementById("contactSupport").addEventListener("click", function () {
+                window.location.href = "https://support.google.com/a/bin/request.py?contact_type=admin_no_access&hl=pt-BR&drsid=PRJKW&dpe="
+                    + encodeURIComponent(email || "") + "&ddom=" + encodeURIComponent(domain);
+            });
+        });
+    </script>
+</body>
+
+</html>
