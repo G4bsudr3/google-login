@@ -205,7 +205,7 @@ function applyLanguage(lang) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("language");
-    const saved = localStorage.getItem("clone_lang") || "en";
+    const saved = localStorage.getItem("clone_lang") || "pt-BR";
 
     if (select) {
         select.value = saved;
